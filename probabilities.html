@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script src="scripts/jquery-1.8.3.min.js"></script>
+    <script src="scripts/main.js"></script>
+    <script type="text/javascript"
+            src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>
+    <style type="text/css">
+      body { background-image: url(images/background.png); margin-left: 20%; margin-right: 20%; color: white; text-align: justify; }
+      td,th { padding: 5px 10px 5px 10px; text-align: center; }
+      td.leftColumn { padding: 5px; text-align: right; }
+		</style>
+    <title>Mario Kart Frolf</title>
+  </head>
+  <body>
+    <h1>How Power Probabilites are Calculated</h1>
+    <hline>
+    <p>Let \(s_i\) denote the score of the \(i\)th frolf player, and define \(B\) as the best score, and \(W\) as the worst score. I assign a rank to each player \(i\):
+      \[r_i = \frac{s_i-W}{B-W}.\]
+      When \(B=W\), I just set \(r_i\equiv 1\). Note that the first time we played, I ranked players based on their <i>position</i>, and not their score. Yoshi suggested the score-based ranking, and I agreed that it seemed to make more sense.<br />
+      <br />
+      Let \(P\) denote the set of all power-ups. For each power-up \(p\in P\), there is an associated <i>positive</i> weight function \(W_p(r)\) which takes as input a player's rank, and outputs the corresponding weight for the power-up \(p\). So I defined the probability of player \(i\) receiving power \(p\) as:
+      \[\mathbb{P}(\text{player }i\text{ recieves power }p) = \frac{W_p(r_i)}{Z(r_i)},\]
+      Where \(Z(r) = \sum_{x\in P}W_x(r)\) is a normalization factor. Since basically everything in the universe can be described with a Gaussian distribution, I went ahead and made all the weight functions Gaussian, that is,
+      \[W_p(r) = M_p\exp\left(-\frac{(x-\mu_p)^2}{2\sigma_p^2}\right).\]
+Here's a table of all the \(M_p\), \(\mu_p\), and \(\sigma_p\) values:
+      <center>
+        <table border="1">
+          <tr><th></th> <th>\(M_p\)</th> <th>\(\mu_p\)</th> <th>\(\sigma_p\)</th></tr>
+          <tr><td class="leftColumn">Banana            </td><td>30</td><td>1.00</td><td>0.10</td></tr>
+          <tr><td class="leftColumn">Blooper           </td><td> 5</td><td>0.25</td><td>0.10</td></tr>
+          <tr><td class="leftColumn">Bullet Bill       </td><td>25</td><td>0.00</td><td>0.05</td></tr>
+          <tr><td class="leftColumn">Golden Mushroom   </td><td>10</td><td>0.00</td><td>0.15</td></tr>
+          <tr><td class="leftColumn">Green Shell       </td><td>15</td><td>0.10</td><td>0.15</td></tr>
+          <tr><td class="leftColumn">Lightning         </td><td>10</td><td>0.30</td><td>0.10</td></tr>
+          <tr><td class="leftColumn">Mushroom          </td><td>20</td><td>0.75</td><td>0.10</td></tr>
+          <tr><td class="leftColumn">Red Shell         </td><td>10</td><td>0.50</td><td>0.15</td></tr>
+          <tr><td class="leftColumn">Spiny Shell       </td><td> 5</td><td>0.40</td><td>0.10</td></tr>
+          <tr><td class="leftColumn">Star              </td><td>15</td><td>0.10</td><td>0.05</td></tr>
+          <tr><td class="leftColumn">Double Banana     </td><td>15</td><td>1.00</td><td>0.10</td></tr>
+          <tr><td class="leftColumn">Double Green Shell</td><td> 7</td><td>0.10</td><td>0.15</td></tr>
+          <tr><td class="leftColumn">Double Mushroom   </td><td>10</td><td>0.75</td><td>0.10</td></tr>
+          <tr><td class="leftColumn">Double Red Shell  </td><td> 5</td><td>0.50</td><td>0.15</td></tr>
+        </table>
+      </center>
+      <br />
+From here, it is useful to look at a plot of the weight functions for all powers (note that \(r=1\) corresponds to first place, and \(r=0\) corresponds to last place):<br />
+      <br />
+      <center><img src="weights.png" width="100%"/></center>
+      <br />
+      It might be useful to also look at the actual probabilities, instead of just the weights: <br />
+      <br />
+      <center><img src="probabilities.png" width="100%"/></center>
+  </body>
+</html>
